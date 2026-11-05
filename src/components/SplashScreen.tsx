@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import bgImage from '../assets/images/splash_screen/03_Background_Clean_1080x1920.png';
-import logoImage from '../assets/images/splash_screen/logo_game_2d.png';
-import sloganImage from '../assets/images/splash_screen/slogan_game.png';
-import textFrameImage from '../assets/images/splash_screen/loading_frame.png';
-import barEmptyImage from '../assets/images/splash_screen/loading_0.png';
-import barFullImage from '../assets/images/splash_screen/loading_100.png';
+import bgImage from '@/assets/images/splash_screen/03_Background_Clean_1080x1920.png';
+import textFrameImage from '@/assets/images/splash_screen/loading_frame.png';
+import barEmptyImage from '@/assets/images/splash_screen/loading_0.png';
+import barFullImage from '@/assets/images/splash_screen/loading_100.png';
+import logoImage from '@/assets/images/common/logo_game_2d.png';
+import sloganImage from '@/assets/images/common/slogan_game.png';
 
 interface SplashScreenProps {
   onLoadComplete?: () => void;

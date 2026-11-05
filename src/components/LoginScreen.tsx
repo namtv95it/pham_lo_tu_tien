@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import bgLogin from '../assets/images/login_screen/background_login.png';
-import frameChat from '../assets/images/login_screen/frame-chat.png';
-import tabLogin from '../assets/images/login_screen/login-or-register_login.png';
-import tabRegister from '../assets/images/login_screen/login-or-register_register.png';
-import btnAction from '../assets/images/login_screen/button_action.png';
-import logoImg from '../assets/images/splash_screen/logo_game_2d.png';
-import sloganImg from '../assets/images/splash_screen/slogan_game.png';
+import bgLogin from '@/assets/images/login_screen/background_login.png';
+import frameChat from '@/assets/images/login_screen/frame-chat.png';
+import tabLogin from '@/assets/images/login_screen/login-or-register_login.png';
+import tabRegister from '@/assets/images/login_screen/login-or-register_register.png';
+import btnAction from '@/assets/images/login_screen/button_action.png';
+import logoImg from '@/assets/images/common/logo_game_2d.png';
+import sloganImg from '@/assets/images/common/slogan_game.png';
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
