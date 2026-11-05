@@ -18,8 +18,9 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Lora"', '"Noto Serif"', 'serif'],
-        sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+        game: ['"Montserrat"', '"Be Vietnam Pro"', 'sans-serif'],
+        sans: ['"Montserrat"', '"Be Vietnam Pro"', 'sans-serif'],
+        serif: ['"Be Vietnam Pro"', 'sans-serif'],
       }
     },
   },

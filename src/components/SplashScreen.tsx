@@ -36,7 +36,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onLoadComplete }) =>
   }, [onLoadComplete]);
 
   return (
-    <div className="relative w-full h-full flex flex-col justify-between overflow-hidden select-none">
+    <div className="relative w-full h-full flex flex-col justify-between overflow-hidden select-none font-sans">
       {/* Background Phong Cảnh Tu Tiên 1080x1920 */}
       <img
         src={bgImage}
@@ -73,15 +73,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onLoadComplete }) =>
 
       {/* Phần Dưới: Khung Văn Bản & Thanh Tiến Độ Tải */}
       <footer className="relative z-10 pb-8 sm:pb-10 px-4 flex flex-col items-center gap-1.5">
-        {/* Khung Văn Bản Loading */}
+        {/* Khung Văn Bản Loading (Font Game Montserrat / Be Vietnam Pro) */}
         <div className="relative w-[84%] max-w-[330px] aspect-[741/132] flex items-center justify-center">
           <img
             src={textFrameImage}
             alt="Khung thông báo tải"
             className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]"
           />
-          <span className="relative z-10 text-white font-serif font-semibold text-xs sm:text-sm tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] pt-0.5">
-            {isLoaded ? 'Kh\u1EDFi t\u1EA1o ho\u00E0n t\u1EA5t!' : `\u0110ang t\u1EA3i t\u00E0i nguy\u00EAn... ${progress}%`}
+          <span className="relative z-10 text-white font-sans font-bold text-xs sm:text-sm tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] pt-0.5">
+            {isLoaded ? 'Khởi tạo hoàn tất!' : `Đang tải tài nguyên... ${progress}%`}
           </span>
         </div>
 
