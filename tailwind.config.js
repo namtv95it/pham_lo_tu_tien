@@ -18,7 +18,7 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Noto Serif"', '"Playfair Display"', 'Georgia', 'serif'],
+        serif: ['"Lora"', '"Noto Serif"', 'serif'],
         sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
       }
     },

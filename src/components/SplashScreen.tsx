@@ -15,7 +15,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onLoadComplete }) =>
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Giả lập tiến trình tải tài nguyên game chân thực (0% -> 100%)
+    // Giả lập tiến trình tải tài nguyên game (0% -> 100%)
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -80,8 +80,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onLoadComplete }) =>
             alt="Khung thông báo tải"
             className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]"
           />
-          <span className="relative z-10 text-white font-serif font-medium text-xs sm:text-sm tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] pt-0.5">
-            {isLoaded ? 'Khởi tạo hoàn tất!' : `Đang tải tài nguyên... ${progress}%`}
+          <span className="relative z-10 text-white font-serif font-semibold text-xs sm:text-sm tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] pt-0.5">
+            {isLoaded ? 'Kh\u1EDFi t\u1EA1o ho\u00E0n t\u1EA5t!' : `\u0110ang t\u1EA3i t\u00E0i nguy\u00EAn... ${progress}%`}
           </span>
         </div>
 
