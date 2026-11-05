@@ -180,8 +180,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
               <span
                 className={`transition-all duration-200 tracking-wide ${
                   tab === 'login'
-                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105'
-                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95'
+                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105 translate-x-2 sm:translate-x-2.5'
+                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95 translate-x-0'
                 }`}
               >
                 Đăng nhập
@@ -197,8 +197,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
               <span
                 className={`transition-all duration-200 tracking-wide ${
                   tab === 'register'
-                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105'
-                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95'
+                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105 -translate-x-2 sm:-translate-x-2.5'
+                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95 translate-x-0'
                 }`}
               >
                 Đăng ký
