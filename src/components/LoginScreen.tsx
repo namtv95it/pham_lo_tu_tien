@@ -10,9 +10,12 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   signInAnonymously,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
-import { auth } from '../services/firebase';
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db } from '../services/firebase';
 
 interface LoginScreenProps {
   onLoginSuccess: () => void;
@@ -62,10 +65,34 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
     setLoading(true);
     try {
       if (tab === 'login') {
-        await signInWithEmailAndPassword(auth, normalizedEmail, password);
+        const cred = await signInWithEmailAndPassword(auth, normalizedEmail, password);
+        // Cập nhật thời điểm đăng nhập gần nhất vào Firestore
+        try {
+          await setDoc(doc(db, 'users', cred.user.uid), {
+            lastLoginAt: serverTimestamp(),
+          }, { merge: true });
+        } catch (dbErr) {
+          console.warn('Không thể cập nhật Firestore:', dbErr);
+        }
         onLoginSuccess();
       } else {
-        await createUserWithEmailAndPassword(auth, normalizedEmail, password);
+        const cred = await createUserWithEmailAndPassword(auth, normalizedEmail, password);
+        // Lưu hồ sơ nhân vật/người dùng vào Firestore
+        try {
+          await setDoc(doc(db, 'users', cred.user.uid), {
+            uid: cred.user.uid,
+            email: normalizedEmail,
+            displayName: normalizedEmail.split('@')[0],
+            providerId: 'password',
+            createdAt: serverTimestamp(),
+            lastLoginAt: serverTimestamp(),
+            role: 'player',
+            realm: 'Luyện Khí Tầng 1',
+            spiritualRoot: 'Chưa khảo nghiệm',
+          }, { merge: true });
+        } catch (dbErr) {
+          console.warn('Không thể lưu hồ sơ vào Firestore:', dbErr);
+        }
         setSuccessMsg('Đăng ký tài khoản thành công!');
         setTimeout(() => {
           onLoginSuccess();
@@ -86,6 +113,62 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
         msg = 'Thử lại quá nhiều lần. Vui lòng đợi trong giây lát!';
       }
       setErrorMsg(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Đăng nhập bằng Google và lưu vào Firebase Auth + Firestore
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Lưu/Cập nhật thông tin đạo hữu vào Firestore (collection 'users')
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+
+      const baseUserData: Record<string, any> = {
+        uid: user.uid,
+        email: user.email || '',
+        displayName: user.displayName || 'Đạo Hữu',
+        photoURL: user.photoURL || '',
+        providerId: 'google.com',
+        lastLoginAt: serverTimestamp(),
+      };
+
+      if (!userSnap.exists()) {
+        // Tài khoản mới đăng nhập lần đầu
+        baseUserData.createdAt = serverTimestamp();
+        baseUserData.role = 'player';
+        baseUserData.realm = 'Luyện Khí Tầng 1';
+        baseUserData.spiritualRoot = 'Chưa khảo nghiệm';
+      }
+
+      await setDoc(userRef, baseUserData, { merge: true });
+
+      setSuccessMsg('Đăng nhập Google thành công!');
+      setTimeout(() => {
+        onLoginSuccess();
+      }, 500);
+    } catch (err: any) {
+      console.error('Google Sign-In error:', err);
+      if (err.code === 'auth/popup-closed-by-user') {
+        setErrorMsg('Đã đóng cửa sổ đăng nhập Google.');
+      } else if (err.code === 'auth/cancelled-popup-request') {
+        // Đã mở popup khác
+      } else if (err.code === 'auth/popup-blocked') {
+        setErrorMsg('Trình duyệt đã chặn cửa sổ pop-up. Vui lòng cấp quyền pop-up để đăng nhập!');
+      } else if (err.code === 'auth/network-request-failed') {
+        setErrorMsg('Lỗi kết nối mạng, vui lòng thử lại!');
+      } else {
+        setErrorMsg('Đăng nhập Google thất bại: ' + (err.message || 'Lỗi không xác định'));
+      }
     } finally {
       setLoading(false);
     }
@@ -154,7 +237,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
         <div className="relative w-full aspect-[916/1136] flex flex-col items-center">
           
           {/* 1. Lớp hình ảnh nền 2 nút Tab (z-10 NẰM DƯỚI Khung Đăng Nhập z-20) */}
-          <div className="absolute -top-[5.2%] sm:-top-[5%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[1958/397] z-10 pointer-events-none">
+          <div className="absolute -top-[8.5%] sm:-top-[8%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[2172/483] z-10 pointer-events-none">
             <img
               src={tab === 'login' ? tabLogin : tabRegister}
               alt="Tab Selection"
@@ -170,18 +253,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
           />
 
           {/* 3. Lớp văn bản & nút bấm click của 2 Tab (z-40 NẰM TRÊN CÙNG để click thoải mái) */}
-          <div className="absolute -top-[5.2%] sm:-top-[5%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[1958/397] z-40 flex pointer-events-auto">
+          <div className="absolute -top-[8.5%] sm:-top-[8%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[2172/483] z-40 flex pointer-events-auto">
             {/* Nút Tab Đăng Nhập (Trái) */}
             <button
               type="button"
               onClick={() => { setTab('login'); setErrorMsg(null); setSuccessMsg(null); }}
-              className="w-1/2 h-full flex items-center justify-center pt-0.5 sm:pt-1 cursor-pointer transition-all duration-200 select-none"
+              className="w-1/2 h-full flex items-center justify-center cursor-pointer transition-all duration-200 select-none"
             >
               <span
-                className={`transition-all duration-200 tracking-wide ${
+                className={`transition-all duration-200 translate-y-[9px] sm:translate-y-[10px] ${
                   tab === 'login'
-                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105 translate-x-2 sm:translate-x-2.5'
-                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95 translate-x-0'
+                    ? 'text-xs sm:text-sm font-extrabold text-[#0e1c15] tracking-wider drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)] translate-x-2 sm:translate-x-2.5'
+                    : 'text-xs sm:text-[13px] font-medium text-[#fbf7ee]/75 tracking-normal drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)] translate-x-0'
                 }`}
               >
                 Đăng nhập
@@ -192,13 +275,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             <button
               type="button"
               onClick={() => { setTab('register'); setErrorMsg(null); setSuccessMsg(null); }}
-              className="w-1/2 h-full flex items-center justify-center pt-0.5 sm:pt-1 cursor-pointer transition-all duration-200 select-none"
+              className="w-1/2 h-full flex items-center justify-center cursor-pointer transition-all duration-200 select-none"
             >
               <span
-                className={`transition-all duration-200 tracking-wide ${
+                className={`transition-all duration-200 translate-y-[9px] sm:translate-y-[10px] ${
                   tab === 'register'
-                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105 -translate-x-2 sm:-translate-x-2.5'
-                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95 translate-x-0'
+                    ? 'text-xs sm:text-sm font-extrabold text-[#0e1c15] tracking-wider drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)] -translate-x-2 sm:-translate-x-2.5'
+                    : 'text-xs sm:text-[13px] font-medium text-[#fbf7ee]/75 tracking-normal drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)] translate-x-0'
                 }`}
               >
                 Đăng ký
@@ -342,9 +425,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
               {/* Google */}
               <button
                 type="button"
-                onClick={handleGuestLogin}
+                onClick={handleGoogleLogin}
+                disabled={loading}
                 title="Đăng nhập Google"
-                className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full bg-white border border-[#dfd4be] shadow-sm flex items-center justify-center hover:scale-105 transition-transform cursor-pointer"
+                className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full bg-white border border-[#dfd4be] shadow-sm flex items-center justify-center hover:scale-105 active:scale-95 transition-transform cursor-pointer disabled:opacity-50"
               >
                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
