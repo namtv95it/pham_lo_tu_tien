@@ -18,10 +18,10 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Cinzel"', '"Noto Serif TC"', 'Georgia', 'serif'],
+        serif: ['"Noto Serif"', '"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
       }
     },
   },
   plugins: [],
 }
-
