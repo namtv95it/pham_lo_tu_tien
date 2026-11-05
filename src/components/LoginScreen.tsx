@@ -130,27 +130,31 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
       const user = result.user;
 
       // Lưu/Cập nhật thông tin đạo hữu vào Firestore (collection 'users')
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
 
-      const baseUserData: Record<string, any> = {
-        uid: user.uid,
-        email: user.email || '',
-        displayName: user.displayName || 'Đạo Hữu',
-        photoURL: user.photoURL || '',
-        providerId: 'google.com',
-        lastLoginAt: serverTimestamp(),
-      };
+        const baseUserData: Record<string, any> = {
+          uid: user.uid,
+          email: user.email || '',
+          displayName: user.displayName || 'Đạo Hữu',
+          photoURL: user.photoURL || '',
+          providerId: 'google.com',
+          lastLoginAt: serverTimestamp(),
+        };
 
-      if (!userSnap.exists()) {
-        // Tài khoản mới đăng nhập lần đầu
-        baseUserData.createdAt = serverTimestamp();
-        baseUserData.role = 'player';
-        baseUserData.realm = 'Luyện Khí Tầng 1';
-        baseUserData.spiritualRoot = 'Chưa khảo nghiệm';
+        if (!userSnap.exists()) {
+          // Tài khoản mới đăng nhập lần đầu
+          baseUserData.createdAt = serverTimestamp();
+          baseUserData.role = 'player';
+          baseUserData.realm = 'Luyện Khí Tầng 1';
+          baseUserData.spiritualRoot = 'Chưa khảo nghiệm';
+        }
+
+        await setDoc(userRef, baseUserData, { merge: true });
+      } catch (dbErr) {
+        console.warn('Lưu Firestore bị chặn do Rules chưa cấu hình:', dbErr);
       }
-
-      await setDoc(userRef, baseUserData, { merge: true });
 
       setSuccessMsg('Đăng nhập Google thành công!');
       setTimeout(() => {
