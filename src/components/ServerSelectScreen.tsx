@@ -38,7 +38,7 @@ const FAKE_SERVERS: ServerInfo[] = [
     status: 'crowded',
     statusText: 'Đông',
     statusColor: 'text-[#dc2626]',
-    dotColor: 'bg-emerald-500',
+    dotColor: 'bg-red-500', // Màu tương ứng với Đông (Đỏ)
     hasCharacter: true,
     characterName: 'Nam Tạ Vân',
     level: 85,
@@ -51,7 +51,7 @@ const FAKE_SERVERS: ServerInfo[] = [
     status: 'good',
     statusText: 'Tốt',
     statusColor: 'text-emerald-700',
-    dotColor: 'bg-emerald-500',
+    dotColor: 'bg-emerald-500', // Màu tương ứng với Tốt (Xanh lá)
     isNew: true,
     category: ['all', 'new'],
   },
@@ -61,7 +61,7 @@ const FAKE_SERVERS: ServerInfo[] = [
     status: 'good',
     statusText: 'Tốt',
     statusColor: 'text-emerald-700',
-    dotColor: 'bg-emerald-500',
+    dotColor: 'bg-emerald-500', // Màu tương ứng với Tốt (Xanh lá)
     isNew: true,
     category: ['all', 'new'],
   },
@@ -71,7 +71,7 @@ const FAKE_SERVERS: ServerInfo[] = [
     status: 'stable',
     statusText: 'Ổn',
     statusColor: 'text-amber-700',
-    dotColor: 'bg-amber-500',
+    dotColor: 'bg-amber-400', // Màu tương ứng với Ổn Định (Vàng)
     category: ['all', 'old'],
   },
   {
@@ -80,7 +80,7 @@ const FAKE_SERVERS: ServerInfo[] = [
     status: 'good',
     statusText: 'Tốt',
     statusColor: 'text-emerald-700',
-    dotColor: 'bg-emerald-500',
+    dotColor: 'bg-emerald-500', // Màu tương ứng với Tốt (Xanh lá)
     category: ['all', 'old'],
   },
 ];
@@ -110,8 +110,8 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
   const characterName = currentUser?.displayName || playedServer.characterName || 'Nam Tạ Vân';
   const serverCode = playedServer.name.split(' - ')[0] || playedServer.id.toUpperCase();
 
-  // Danh mục sidebar tabs (Bỏ icon theo yêu cầu của user)
-  const categories: { key: CategoryType; label: string; badge?: string }[] = [
+  // Danh mục sidebar tabs (Bỏ icon và badge theo yêu cầu)
+  const categories: { key: CategoryType; label: string }[] = [
     {
       key: 'all',
       label: 'Tất Cả',
@@ -123,7 +123,6 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
     {
       key: 'new',
       label: 'Máy Chủ Mới',
-      badge: 'NEW',
     },
     {
       key: 'played',
@@ -287,8 +286,8 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
                       </div>
                     )}
 
-                    {/* Nội dung Tab: Chữ căn giữa chuẩn chỉnh, không icon */}
-                    <div className="relative z-10 flex items-center justify-center gap-1 w-full px-1.5">
+                    {/* Nội dung Tab: Chữ căn giữa chuẩn chỉnh, không icon hay badge */}
+                    <div className="relative z-10 flex items-center justify-center w-full px-1.5">
                       <span
                         className={`text-[11px] sm:text-xs truncate tracking-tight text-center ${
                           isSelected
@@ -298,11 +297,6 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
                       >
                         {cat.label}
                       </span>
-                      {cat.badge && (
-                        <span className="bg-red-600 text-white text-[8px] font-black px-1 rounded shadow-xs leading-none flex-shrink-0">
-                          {cat.badge}
-                        </span>
-                      )}
                     </div>
                   </button>
                 );
@@ -350,19 +344,16 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
 
                   {/* NHÓM 2: MÁY CHỦ MỚI */}
                   <div className="flex flex-col gap-1 pt-0.5">
-                    {/* Header Ribbon Máy Chủ Mới - Không bị cắt mất viền ảnh */}
-                    <div className="relative w-[155px] sm:w-[170px] aspect-[2172/724] mx-auto -my-1.5 flex items-center justify-center flex-shrink-0">
+                    {/* Header Ribbon Máy Chủ Mới - Đồng bộ kích thước và bỏ badge NEW */}
+                    <div className="relative w-[140px] sm:w-[155px] aspect-[2172/724] mx-auto -my-1.5 flex items-center justify-center flex-shrink-0">
                       <img
                         src={khungTitleFilter}
                         alt="Máy Chủ Mới"
                         className="w-full h-full object-contain pointer-events-none drop-shadow-xs"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center gap-1 font-bold text-[11px] sm:text-xs text-amber-200 tracking-wide drop-shadow-xs">
-                        <span>Máy Chủ Mới</span>
-                        <span className="bg-red-600 text-white text-[8px] font-black px-1 rounded shadow-xs leading-none">
-                          NEW
-                        </span>
-                      </div>
+                      <span className="absolute inset-0 flex items-center justify-center font-bold text-[11px] sm:text-xs text-amber-200 tracking-wide drop-shadow-xs">
+                        Máy Chủ Mới
+                      </span>
                     </div>
 
                     {FAKE_SERVERS.filter((s) => s.category.includes('new')).map((srv) => (
@@ -510,32 +501,26 @@ const ServerRow: React.FC<ServerRowProps> = ({ server, isSelected, onSelect }) =
       )}
 
       {/* Nội dung bên trong dòng server */}
-      <div className="absolute inset-0 px-3 sm:px-3.5 flex items-center justify-between pointer-events-none">
-        {/* Vế Trái: Chấm trạng thái + Tên máy chủ + Huy hiệu Có nhân vật */}
-        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
-          {/* Chấm tròn trạng thái */}
-          <span className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0 ${server.dotColor} shadow-xs`} />
+      <div className="absolute inset-0 pl-[22px] sm:pl-[25px] pr-3 sm:pr-3.5 flex items-center pointer-events-none">
+        {/* Vế Trái: Chấm trạng thái màu tương ứng + Tên máy chủ (dịch sang phải một chút) */}
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+          {/* Chấm tròn trạng thái với màu tương ứng (Đông = Đỏ, Tốt = Xanh lá, Ổn = Vàng) */}
+          <span
+            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0 ${server.dotColor} shadow-xs ring-1 ring-black/15`}
+          />
 
           {/* Tên Máy Chủ */}
           <span className="font-black text-xs sm:text-sm text-[#14231b] truncate drop-shadow-xs">
             {server.name}
           </span>
-
-          {/* Huy hiệu Có Nhân Vật */}
-          {server.hasCharacter && (
-            <span className="bg-[#1b4332] text-white text-[8px] sm:text-[9px] font-extrabold px-1.5 py-0.5 rounded-full flex items-center gap-0.5 ml-1 shadow-xs flex-shrink-0">
-              <span>👤</span>
-              <span>Có nhân vật</span>
-            </span>
-          )}
         </div>
 
-        {/* Vế Phải: Chữ trạng thái (Đông, Tốt, Ổn) */}
-        <span
-          className={`text-xs sm:text-sm font-black flex-shrink-0 drop-shadow-xs ${server.statusColor}`}
-        >
-          {server.statusText}
-        </span>
+        {/* Huy hiệu Có Nhân Vật - Giữ nguyên vị trí ban đầu */}
+        {server.hasCharacter && (
+          <span className="absolute left-[114px] sm:left-[122px] bg-[#1b4332] text-[#8cf0c8] text-[8px] sm:text-[9px] font-extrabold px-1.5 py-0.5 rounded-full shadow-xs flex-shrink-0">
+            Có nhân vật
+          </span>
+        )}
       </div>
     </div>
   );
