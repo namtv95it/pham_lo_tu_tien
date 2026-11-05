@@ -119,7 +119,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col justify-between items-center overflow-y-auto overflow-x-hidden p-2 sm:p-3 select-none font-sans">
+    <div className="relative w-full h-full flex flex-col justify-between items-center overflow-y-auto overflow-x-hidden p-2 select-none font-sans">
       {/* Background Tiên Cảnh 941x1672 bao phủ toàn bộ */}
       <img
         src={bgLogin}
@@ -132,14 +132,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
 
       {/* 1. Phần Trên: Logo & Khẩu Hiệu Slogan */}
       <header className="relative z-10 pt-2 sm:pt-4 flex flex-col items-center w-full shrink-0">
-        <div className="w-[56%] max-w-[220px] aspect-[683/436] flex items-center justify-center">
+        <div className="w-[56%] max-w-[210px] aspect-[683/436] flex items-center justify-center">
           <img
             src={logoImg}
             alt="Phàm Lộ Tu Tiên Logo"
             className="w-full h-full object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.6)]"
           />
         </div>
-        <div className="w-[66%] max-w-[250px] aspect-[760/168] mt-[-2px] flex items-center justify-center">
+        <div className="w-[66%] max-w-[240px] aspect-[760/168] mt-[-2px] flex items-center justify-center">
           <img
             src={sloganImg}
             alt="Thân mang phàm cốt, tâm hướng tiên đồ"
@@ -148,164 +148,161 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
         </div>
       </header>
 
-      {/* 2. Phần Giữa: Khối Card Đăng Nhập Hoàn Chỉnh */}
-      <main className="relative z-20 w-full max-w-[390px] flex flex-col items-center my-auto px-1 sm:px-2">
-        {/* Thanh Tab: Đăng Nhập | Đăng Ký (Gắn khớp ngay trên đỉnh khung cuộn) */}
-        <div className="relative w-[82%] max-w-[310px] aspect-[1326/226] -mb-2 sm:-mb-2.5 z-30 flex">
-          <img
-            src={tab === 'login' ? tabLogin : tabRegister}
-            alt="Tab Selection"
-            className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
-          />
-
-          {/* Nút Tab Đăng Nhập (Trái) */}
-          <button
-            type="button"
-            onClick={() => { setTab('login'); setErrorMsg(null); setSuccessMsg(null); }}
-            className="relative z-40 w-1/2 h-full flex items-center justify-center font-bold text-xs sm:text-sm tracking-wide"
-          >
-            <span className={tab === 'login' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
-              Đăng nhập
-            </span>
-          </button>
-
-          {/* Nút Tab Đăng Ký (Phải) */}
-          <button
-            type="button"
-            onClick={() => { setTab('register'); setErrorMsg(null); setSuccessMsg(null); }}
-            className="relative z-40 w-1/2 h-full flex items-center justify-center font-bold text-xs sm:text-sm tracking-wide"
-          >
-            <span className={tab === 'register' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
-              Đăng ký
-            </span>
-          </button>
-        </div>
-
+      {/* 2. Phần Giữa: Khối Card & Tab Bar gắn khớp không khe hở */}
+      <main className="relative z-20 w-full max-w-[380px] my-auto px-2 pt-10 sm:pt-12 pb-3 flex flex-col items-center">
         {/* Khung Viền Giấy Trúc Cuộn Thư Tỷ Lệ Chuẩn (916/1136) */}
         <div className="relative w-full aspect-[916/1136] flex flex-col items-center z-10">
-          {/* Ảnh nền Khung Card hoàn chỉnh không bị cắt */}
+          
+          {/* Thanh Tab: Đăng Nhập | Đăng Ký (Khoá chặt trên đỉnh khung cuộn, KHÔNG CÓ KHE HỞ NƯỚC) */}
+          <div className="absolute -top-[10.5%] left-1/2 -translate-x-1/2 w-[94%] aspect-[1326/226] z-30 flex">
+            <img
+              src={tab === 'login' ? tabLogin : tabRegister}
+              alt="Tab Selection"
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
+            />
+
+            {/* Nút Tab Đăng Nhập (Trái) */}
+            <button
+              type="button"
+              onClick={() => { setTab('login'); setErrorMsg(null); setSuccessMsg(null); }}
+              className="relative z-40 w-1/2 h-full flex items-center justify-center font-bold text-xs sm:text-sm tracking-wide"
+            >
+              <span className={tab === 'login' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
+                Đăng nhập
+              </span>
+            </button>
+
+            {/* Nút Tab Đăng Ký (Phải) */}
+            <button
+              type="button"
+              onClick={() => { setTab('register'); setErrorMsg(null); setSuccessMsg(null); }}
+              className="relative z-40 w-1/2 h-full flex items-center justify-center font-bold text-xs sm:text-sm tracking-wide"
+            >
+              <span className={tab === 'register' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
+                Đăng ký
+              </span>
+            </button>
+          </div>
+
+          {/* Ảnh nền Khung Card hoàn chỉnh */}
           <img
             src={frameChat}
             alt="Frame Login Card"
             className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.55)]"
           />
 
-          {/* Vùng Form Nội Dung nằm gọn trong lòng giấy cuộn thư */}
+          {/* Vùng Form Nội Dung nằm gọn gàng bên trong lòng giấy cuộn thư (không tràn xuống rèm ngọc) */}
           <form
             onSubmit={handleSubmit}
-            className="relative z-20 w-full h-full flex flex-col justify-between pt-[15%] pb-[14%] px-[8%] sm:px-[10%]"
+            className="relative z-20 w-full h-full flex flex-col justify-start gap-2 sm:gap-2.5 pt-[13%] pb-[23%] px-[9%] sm:px-[11%]"
           >
-            {/* Nhóm Các Ô Nhập Liệu */}
-            <div className="flex flex-col gap-2.5 sm:gap-3">
-              {/* Thông báo lỗi / thành công nếu có */}
-              {errorMsg && (
-                <div className="bg-red-100/90 border border-red-400 text-red-800 text-[11px] px-2.5 py-1 rounded-md text-center leading-tight">
-                  {errorMsg}
-                </div>
-              )}
-              {successMsg && (
-                <div className="bg-emerald-100/90 border border-emerald-400 text-emerald-800 text-[11px] px-2.5 py-1 rounded-md text-center leading-tight">
-                  {successMsg}
-                </div>
-              )}
-
-              {/* Ô 1: Tên tài khoản / Email */}
-              <div className="flex items-center bg-[#fdf9f0] border border-[#d8c7a7] rounded-full px-3.5 py-2 sm:py-2.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] focus-within:border-emerald-600">
-                <span className="text-[#846b45] mr-2 shrink-0">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                </span>
-                <input
-                  type="text"
-                  placeholder="Tên tài khoản / Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-transparent outline-none text-xs sm:text-sm text-slate-800 placeholder-[#9b8969] font-medium"
-                />
+            {/* Thông báo lỗi / thành công nếu có */}
+            {errorMsg && (
+              <div className="bg-red-100/90 border border-red-400 text-red-800 text-[10px] sm:text-[11px] px-2 py-0.5 rounded text-center leading-tight">
+                {errorMsg}
               </div>
+            )}
+            {successMsg && (
+              <div className="bg-emerald-100/90 border border-emerald-400 text-emerald-800 text-[10px] sm:text-[11px] px-2 py-0.5 rounded text-center leading-tight">
+                {successMsg}
+              </div>
+            )}
 
-              {/* Ô 2: Mật khẩu */}
-              <div className="flex items-center bg-[#fdf9f0] border border-[#d8c7a7] rounded-full px-3.5 py-2 sm:py-2.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] focus-within:border-emerald-600">
+            {/* Ô 1: Tên tài khoản / Email */}
+            <div className="flex items-center bg-[#fdf9f0] border border-[#d8c7a7] rounded-full px-3.5 py-1.5 sm:py-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] focus-within:border-emerald-600">
+              <span className="text-[#846b45] mr-2 shrink-0">
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+              </span>
+              <input
+                type="text"
+                placeholder="Tên tài khoản / Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-transparent outline-none text-xs sm:text-sm text-slate-800 placeholder-[#9b8969] font-medium"
+              />
+            </div>
+
+            {/* Ô 2: Mật khẩu */}
+            <div className="flex items-center bg-[#fdf9f0] border border-[#d8c7a7] rounded-full px-3.5 py-1.5 sm:py-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] focus-within:border-emerald-600">
+              <span className="text-[#846b45] mr-2 shrink-0">
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+                </svg>
+              </span>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Mật khẩu"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-transparent outline-none text-xs sm:text-sm text-slate-800 placeholder-[#9b8969] font-medium"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-[#846b45] hover:text-slate-800 ml-1.5 shrink-0 p-0.5"
+              >
+                {showPassword ? (
+                  <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
+
+            {/* Ô 3: Xác nhận mật khẩu (nếu ở Tab Đăng Ký) */}
+            {tab === 'register' && (
+              <div className="flex items-center bg-[#fdf9f0] border border-[#d8c7a7] rounded-full px-3.5 py-1.5 sm:py-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] focus-within:border-emerald-600 animate-in fade-in duration-200">
                 <span className="text-[#846b45] mr-2 shrink-0">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                     <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
                   </svg>
                 </span>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Mật khẩu"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Xác nhận lại mật khẩu"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full bg-transparent outline-none text-xs sm:text-sm text-slate-800 placeholder-[#9b8969] font-medium"
                 />
+              </div>
+            )}
+
+            {/* Hàng: Ghi nhớ đăng nhập & Quên mật khẩu */}
+            <div className="flex items-center justify-between text-[11px] sm:text-xs px-1 text-[#2c3e38] pt-0.5">
+              <label className="flex items-center gap-1.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-3.5 h-3.5 rounded accent-emerald-700 cursor-pointer"
+                />
+                <span className="font-semibold text-[#1c2e27]">Ghi nhớ đăng nhập</span>
+              </label>
+
+              {tab === 'login' && (
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-[#846b45] hover:text-slate-800 ml-1.5 shrink-0 p-0.5"
+                  onClick={handleForgotPassword}
+                  className="underline text-[#1c2e27] hover:text-emerald-800 font-semibold"
                 >
-                  {showPassword ? (
-                    <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
-                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22" />
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  )}
+                  Quên mật khẩu?
                 </button>
-              </div>
-
-              {/* Ô 3: Xác nhận mật khẩu (nếu ở Tab Đăng Ký) */}
-              {tab === 'register' && (
-                <div className="flex items-center bg-[#fdf9f0] border border-[#d8c7a7] rounded-full px-3.5 py-2 sm:py-2.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] focus-within:border-emerald-600 animate-in fade-in duration-200">
-                  <span className="text-[#846b45] mr-2 shrink-0">
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                      <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
-                    </svg>
-                  </span>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Xác nhận lại mật khẩu"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full bg-transparent outline-none text-xs sm:text-sm text-slate-800 placeholder-[#9b8969] font-medium"
-                  />
-                </div>
               )}
-
-              {/* Hàng: Ghi nhớ đăng nhập & Quên mật khẩu */}
-              <div className="flex items-center justify-between text-[11px] sm:text-xs px-1 text-[#2c3e38]">
-                <label className="flex items-center gap-1.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded accent-emerald-700 cursor-pointer"
-                  />
-                  <span className="font-semibold text-[#1c2e27]">Ghi nhớ đăng nhập</span>
-                </label>
-
-                {tab === 'login' && (
-                  <button
-                    type="button"
-                    onClick={handleForgotPassword}
-                    className="underline text-[#1c2e27] hover:text-emerald-800 font-semibold"
-                  >
-                    Quên mật khẩu?
-                  </button>
-                )}
-              </div>
             </div>
 
-            {/* Nhóm Nút Bấm & Mạng Xã Hội */}
-            <div className="flex flex-col items-center gap-1.5 sm:gap-2 mt-1">
-              {/* Nút Hành Động Chính (button_action.png) */}
+            {/* Nút Hành Động Chính (button_action.png) */}
+            <div className="flex justify-center mt-1">
               <button
                 type="submit"
                 disabled={loading}
-                className="relative w-[92%] aspect-[2052/422] flex items-center justify-center transition-transform active:scale-95 disabled:opacity-70 group"
+                className="relative w-[88%] aspect-[2052/422] flex items-center justify-center transition-transform active:scale-95 disabled:opacity-70 group"
               >
                 <img
                   src={btnAction}
@@ -316,65 +313,65 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
                   {loading ? 'Đang xử lý...' : tab === 'login' ? 'Đăng Nhập' : 'Đăng Ký'}
                 </span>
               </button>
+            </div>
 
-              {/* Đường phân cách: ── Hoặc đăng nhập bằng ── */}
-              <div className="flex items-center justify-center gap-2 text-[11px] text-[#846b45] font-medium pt-0.5">
-                <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#c8b798]" />
-                <span className="font-serif">Hoặc đăng nhập bằng</span>
-                <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#c8b798]" />
-              </div>
+            {/* Đường phân cách: ── Hoặc đăng nhập bằng ── */}
+            <div className="flex items-center justify-center gap-2 text-[11px] text-[#846b45] font-medium pt-0.5">
+              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#c8b798]" />
+              <span className="font-serif">Hoặc đăng nhập bằng</span>
+              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#c8b798]" />
+            </div>
 
-              {/* 4 Icon Mạng Xã Hội Tròn */}
-              <div className="flex items-center justify-center gap-3">
-                {/* Google */}
-                <button
-                  type="button"
-                  onClick={handleGuestLogin}
-                  title="Đăng nhập Google"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white border border-[#dfd4be] shadow-sm flex items-center justify-center hover:scale-105 transition-transform"
-                >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                  </svg>
-                </button>
+            {/* 4 Icon Mạng Xã Hội Tròn (Nằm an toàn bên trong nền giấy trúc, KHÔNG TRÀN XUỐNG DÂY NGỌC) */}
+            <div className="flex items-center justify-center gap-3 pb-1">
+              {/* Google */}
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                title="Đăng nhập Google"
+                className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-white border border-[#dfd4be] shadow-sm flex items-center justify-center hover:scale-105 transition-transform"
+              >
+                <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                </svg>
+              </button>
 
-                {/* Facebook */}
-                <button
-                  type="button"
-                  onClick={handleGuestLogin}
-                  title="Đăng nhập Facebook"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1877F2] text-white shadow-sm flex items-center justify-center hover:scale-105 transition-transform"
-                >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                  </svg>
-                </button>
+              {/* Facebook */}
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                title="Đăng nhập Facebook"
+                className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#1877F2] text-white shadow-sm flex items-center justify-center hover:scale-105 transition-transform"
+              >
+                <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </button>
 
-                {/* Apple */}
-                <button
-                  type="button"
-                  onClick={handleGuestLogin}
-                  title="Đăng nhập Apple"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black text-white shadow-sm flex items-center justify-center hover:scale-105 transition-transform"
-                >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.89c.66-.82 1.11-1.96.99-3.1-.96.04-2.12.64-2.8 1.44-.59.69-1.12 1.83-.98 2.94 1.08.08 2.17-.55 2.79-1.28z" />
-                  </svg>
-                </button>
+              {/* Apple */}
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                title="Đăng nhập Apple"
+                className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-black text-white shadow-sm flex items-center justify-center hover:scale-105 transition-transform"
+              >
+                <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.89c.66-.82 1.11-1.96.99-3.1-.96.04-2.12.64-2.8 1.44-.59.69-1.12 1.83-.98 2.94 1.08.08 2.17-.55 2.79-1.28z" />
+                </svg>
+              </button>
 
-                {/* Zalo */}
-                <button
-                  type="button"
-                  onClick={handleGuestLogin}
-                  title="Đăng nhập Zalo / Chơi Nhanh"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#0068FF] text-white shadow-sm flex items-center justify-center font-bold text-[9px] sm:text-[10px] hover:scale-105 transition-transform tracking-tight"
-                >
-                  Zalo
-                </button>
-              </div>
+              {/* Zalo */}
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                title="Đăng nhập Zalo / Chơi Nhanh"
+                className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#0068FF] text-white shadow-sm flex items-center justify-center font-bold text-[9px] hover:scale-105 transition-transform tracking-tight"
+              >
+                Zalo
+              </button>
             </div>
           </form>
         </div>
