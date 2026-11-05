@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { SplashScreen } from './components/SplashScreen';
 import { LoginScreen } from './components/LoginScreen';
 import { ServerSelectScreen, ServerInfo } from './components/ServerSelectScreen';
+import { CharacterCreateScreen, CreatedCharacterData } from './components/CharacterCreateScreen';
 import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { auth } from './services/firebase';
 
 export const App: React.FC = () => {
-  const [appState, setAppState] = useState<'splash' | 'login' | 'server_select' | 'game'>('splash');
+  const [appState, setAppState] = useState<'splash' | 'login' | 'server_select' | 'character_create' | 'game'>('splash');
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [selectedServer, setSelectedServer] = useState<ServerInfo | null>(null);
+  const [activeCharacter, setActiveCharacter] = useState<CreatedCharacterData | null>(null);
 
   // Lắng nghe trạng thái đăng nhập Firebase trong nền
   useEffect(() => {
@@ -53,7 +55,21 @@ export const App: React.FC = () => {
             currentUser={currentUser}
             onEnterGame={(server) => {
               setSelectedServer(server);
-              setAppState('game');
+              // Nếu máy chủ đã có nhân vật -> vào game luôn
+              if (server.hasCharacter) {
+                setActiveCharacter({
+                  name: server.characterName || 'Đạo Hữu',
+                  gender: 'male',
+                  level: server.level || 1,
+                  cultivation: server.cultivation || 'Phàm Nhân',
+                  serverId: server.id,
+                  serverName: server.name,
+                });
+                setAppState('game');
+              } else {
+                // Nếu máy chủ chưa có nhân vật -> chuyển sang trang Tạo Nhân Vật
+                setAppState('character_create');
+              }
             }}
             onBack={() => {
               // Nhấn nút trở về có thể đăng xuất hoặc quay lại màn đăng nhập
@@ -62,7 +78,28 @@ export const App: React.FC = () => {
           />
         )}
 
-        {/* 4. Màn hình Trạng Thái Trong Game */}
+        {/* 4. Màn hình Tạo Nhân Vật (khi chọn server chưa có nhân vật) */}
+        {appState === 'character_create' && selectedServer && (
+          <CharacterCreateScreen
+            server={selectedServer}
+            currentUser={currentUser}
+            onBack={() => setAppState('server_select')}
+            onCreateSuccess={(charData) => {
+              setActiveCharacter(charData);
+              // Cập nhật trạng thái máy chủ hiện tại đã có nhân vật
+              setSelectedServer({
+                ...selectedServer,
+                hasCharacter: true,
+                characterName: charData.name,
+                level: charData.level,
+                cultivation: charData.cultivation,
+              });
+              setAppState('game');
+            }}
+          />
+        )}
+
+        {/* 5. Màn hình Trạng Thái Trong Game */}
         {appState === 'game' && (
           <div className="w-full h-full bg-[#080b11] text-slate-100 flex flex-col items-center justify-center p-6 text-center relative">
             <div className="space-y-4 max-w-xs">
@@ -76,11 +113,14 @@ export const App: React.FC = () => {
                 <p className="text-amber-300 font-bold">
                   Máy chủ: {selectedServer?.name || 'S1 - Phàm Lộ'}
                 </p>
-                <p className="text-slate-300">
-                  Tài khoản: {currentUser?.email || (currentUser?.isAnonymous ? 'Đạo Hữu Ẩn Danh' : 'Đạo Hữu')}
+                <p className="text-white font-bold">
+                  Đạo hiệu: <span className="text-amber-200">{activeCharacter?.name || selectedServer?.characterName || 'Vô Danh'}</span>
                 </p>
-                <p className="text-emerald-400">
-                  Trạng thái máy chủ: {selectedServer?.statusText || 'Đông'}
+                <p className="text-slate-300">
+                  Cảnh giới: <span className="text-emerald-300">{activeCharacter?.cultivation || selectedServer?.cultivation || 'Phàm Nhân'}</span> (Lv.{activeCharacter?.level || selectedServer?.level || 1})
+                </p>
+                <p className="text-slate-400">
+                  Tài khoản: {currentUser?.email || (currentUser?.isAnonymous ? 'Đạo Hữu Ẩn Danh' : 'Đạo Hữu')}
                 </p>
               </div>
               <p className="text-sm text-slate-300 font-serif italic tracking-wide">
@@ -90,13 +130,13 @@ export const App: React.FC = () => {
               <div className="pt-4 flex items-center justify-center gap-2">
                 <button
                   onClick={() => setAppState('server_select')}
-                  className="px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-800/50 text-xs font-semibold transition-colors"
+                  className="px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-800/50 text-xs font-semibold transition-colors cursor-pointer"
                 >
                   Đổi Máy Chủ
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 text-red-300 border border-red-800/50 text-xs font-semibold transition-colors"
+                  className="px-4 py-2.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 text-red-300 border border-red-800/50 text-xs font-semibold transition-colors cursor-pointer"
                 >
                   Đăng Xuất
                 </button>

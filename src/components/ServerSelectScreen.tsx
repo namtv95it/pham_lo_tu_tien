@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import bgLogin from '@/assets/images/login_screen/background_login.png';
 import btnBack from '@/assets/images/server_select/01_Nut_Tro_Ve.png';
 import btnSettings from '@/assets/images/server_select/02_Nut_Cai_Dat.png';
-import titleServer from '@/assets/images/server_select/03_Tieu_De_Chon_May_Chu.png';
-import playedCardFrame from '@/assets/images/server_select/04_Khung_May_Chu_Da_Choi.png';
-import tabActiveBg from '@/assets/images/server_select/05_Sidebar_Duoc_Chon.png';
-import tabInactiveBg from '@/assets/images/server_select/06_Sidebar_Chua_Chon.png';
-import btnAction from '@/assets/images/login_screen/button_action.png';
+import titleChonMayChu from '@/assets/images/server_select/title_chon_may_chu.png';
+import khungDaChoi from '@/assets/images/server_select/khung_da_choi.png';
+import khungTrangThai from '@/assets/images/server_select/khung_trang_thai.png';
+import khungListFilter from '@/assets/images/server_select/khung_list_filter.png';
+import khungFilterSelected from '@/assets/images/server_select/khung_filter_selected.png';
+import khungFilter from '@/assets/images/server_select/khung_filter.png';
+import khungListServer from '@/assets/images/server_select/khung_list_server.png';
+import khungTitleFilter from '@/assets/images/server_select/khung_title_filter.png';
+import khungServer from '@/assets/images/server_select/khung_server.png';
+import khungServerCoNhanVat from '@/assets/images/server_select/khung_server_co_nhan_vat.png';
+import btnVaoGame from '@/assets/images/server_select/vao_game.png';
 import characterAvatar from '@/assets/images/common/character_transparent.png';
 import { User } from 'firebase/auth';
 
@@ -31,10 +37,10 @@ const FAKE_SERVERS: ServerInfo[] = [
     name: 'S1 - Phàm Lộ',
     status: 'crowded',
     statusText: 'Đông',
-    statusColor: 'text-[#d92525]',
+    statusColor: 'text-[#dc2626]',
     dotColor: 'bg-emerald-500',
     hasCharacter: true,
-    characterName: 'Tạ Văn Nam',
+    characterName: 'Nam Tạ Vân',
     level: 85,
     cultivation: 'Trúc Cơ Kỳ',
     category: ['all', 'recommended', 'played'],
@@ -101,17 +107,17 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
   const currentSelectedServer = FAKE_SERVERS.find((s) => s.id === selectedServerId) || playedServer;
 
   // Tên đạo hữu hiển thị & Mã server ngắn gọn (S1, S2...)
-  const characterName = currentUser?.displayName || playedServer.characterName || 'Tạ Văn Nam';
+  const characterName = currentUser?.displayName || playedServer.characterName || 'Nam Tạ Vân';
   const serverCode = playedServer.name.split(' - ')[0] || playedServer.id.toUpperCase();
 
-  // Danh mục sidebar
+  // Danh mục sidebar tabs
   const categories: { key: CategoryType; label: string; icon: React.ReactNode; badge?: string }[] = [
     {
       key: 'all',
       label: 'Tất Cả',
       icon: (
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zm-9 9h7v7H4v-7zm9 0h7v7h-7v-7z" />
+          <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
         </svg>
       ),
     },
@@ -151,39 +157,39 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
   ];
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between overflow-hidden select-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-between overflow-hidden select-none bg-[#041a17]">
       {/* 1. Hình nền tiên cảnh */}
       <img
         src={bgLogin}
         alt="Tiên Giới Nền"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#031514]/40 via-transparent to-[#041c19]/60 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#031514]/30 via-transparent to-[#041c19]/50 pointer-events-none z-0" />
 
-      {/* 2. Top Header Navigation */}
-      <header className="relative z-10 w-full px-3 pt-3 flex items-center justify-between">
+      {/* 2. Top Header Navigation: Trở Về + Tiêu Đề "Chọn Máy Chủ" + Cài Đặt */}
+      <header className="relative z-10 w-full px-3 pt-2.5 flex items-center justify-between">
         {/* Nút Trở Về */}
         <button
           onClick={onBack}
-          className="w-10 h-10 flex-shrink-0 active:scale-90 transition-transform focus:outline-none drop-shadow-md"
+          className="w-10 h-10 flex-shrink-0 active:scale-90 transition-transform focus:outline-none cursor-pointer drop-shadow-md"
           title="Quay lại"
         >
           <img src={btnBack} alt="Trở về" className="w-full h-full object-contain" />
         </button>
 
-        {/* Tiêu Đề "Chọn Máy Chủ" */}
-        <div className="flex-1 max-w-[210px] mx-2 flex justify-center">
+        {/* Tiêu Đề "Chọn Máy Chủ" chuẩn ảnh mới */}
+        <div className="flex-1 max-w-[220px] mx-2 flex justify-center">
           <img
-            src={titleServer}
+            src={titleChonMayChu}
             alt="Chọn Máy Chủ"
-            className="w-full max-h-12 object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]"
+            className="w-full max-h-12 object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.7)]"
           />
         </div>
 
         {/* Nút Cài Đặt */}
         <button
           onClick={() => setShowSettingsModal(true)}
-          className="w-10 h-10 flex-shrink-0 active:scale-90 transition-transform focus:outline-none drop-shadow-md"
+          className="w-10 h-10 flex-shrink-0 active:scale-90 transition-transform focus:outline-none cursor-pointer drop-shadow-md"
           title="Cài đặt"
         >
           <img src={btnSettings} alt="Cài đặt" className="w-full h-full object-contain" />
@@ -191,19 +197,19 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
       </header>
 
       {/* 3. Phần Nội Dung Chính */}
-      <div className="relative z-10 w-full flex-1 flex flex-col px-3 pt-2 pb-2 gap-2.5 overflow-hidden max-w-[430px]">
+      <div className="relative z-10 w-full flex-1 flex flex-col px-2.5 pt-1.5 pb-1 gap-2 overflow-hidden max-w-[430px]">
         {/* --- KHUNG MÁY CHỦ ĐÃ CHƠI (CARD TRÊN) --- */}
-        <div className="relative w-full flex-shrink-0 drop-shadow-lg aspect-[1335/322]">
-          {/* Background Khung Ornate */}
+        <div className="relative w-full flex-shrink-0 drop-shadow-lg aspect-[1916/821]">
+          {/* Background Khung Ornate chuẩn ảnh mới */}
           <img
-            src={playedCardFrame}
+            src={khungDaChoi}
             alt="Khung Máy Chủ Đã Chơi"
             className="w-full h-full object-fill pointer-events-none"
           />
 
-          {/* 1. Cụm Avatar nhân vật - Khớp chính xác tâm vòng tròn avatar của khung */}
-          <div className="absolute left-[15.5%] top-[48%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none">
-            <div className="w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] rounded-full overflow-hidden flex items-center justify-center bg-[#072520]">
+          {/* 1. Cụm Avatar nhân vật - Khớp chính xác tâm vòng tròn avatar */}
+          <div className="absolute left-[16.65%] top-[51.34%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none">
+            <div className="w-[46px] h-[46px] sm:w-[52px] sm:h-[52px] rounded-full overflow-hidden flex items-center justify-center bg-[#072520]">
               <img
                 src={characterAvatar}
                 alt="Nhân vật"
@@ -216,16 +222,16 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
             </div>
           </div>
 
-          {/* 2. Cụm thông tin Máy chủ & Nhân vật - Tách riêng từng hàng theo toạ độ chuẩn của khung ảnh */}
-          {/* Hàng 1: Nhãn "Đã chơi" - Căn giữa tuyệt đối cả ngang và dọc trong khung pill bên cạnh ngôi sao */}
-          <div className="absolute left-[28%] right-[49.5%] top-[17%] h-[16.5%] flex items-center justify-center pointer-events-none">
+          {/* 2. Cụm thông tin Máy chủ & Nhân vật */}
+          {/* Hàng 1: Nhãn "Đã chơi" - Căn giữa trong khung pill bên cạnh ngôi sao */}
+          <div className="absolute left-[29.7%] right-[49.6%] top-[20%] bottom-[65%] flex items-center justify-center pointer-events-none">
             <span className="text-[10px] sm:text-[11px] text-amber-300 font-bold tracking-wide truncate leading-none select-none">
               Đã chơi
             </span>
           </div>
 
-          {/* Hàng 2: Mã Server & Tên nhân vật cùng cỡ chữ, ngăn cách bằng dấu :, căn giữa hàng 2 */}
-          <div className="absolute left-[28.5%] right-[33%] top-[41%] h-[18%] flex items-center gap-1.5 truncate pointer-events-none">
+          {/* Hàng 2: Mã Server & Tên nhân vật cùng cỡ chữ, ngăn cách bằng dấu : */}
+          <div className="absolute left-[28.5%] right-[34%] top-[41%] h-[18%] flex items-center gap-1.5 truncate pointer-events-none">
             <span className="text-white font-extrabold text-xs sm:text-sm drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] flex-shrink-0 leading-none">
               {serverCode}:
             </span>
@@ -234,111 +240,122 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
             </span>
           </div>
 
-          {/* Hàng 3: Cảnh giới Tu Vi - To rõ, đặt ngay cạnh icon 2 thanh kiếm và căn cùng trục tâm */}
-          <div className="absolute left-[34%] right-[33%] top-[65%] h-[18%] flex items-center pointer-events-none">
+          {/* Hàng 3: Cảnh giới Tu Vi - Đặt cạnh icon 2 thanh kiếm */}
+          <div className="absolute left-[32%] right-[34%] top-[64%] h-[18%] flex items-center pointer-events-none">
             <span className="text-amber-200 text-xs sm:text-sm font-extrabold truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] leading-none">
               {playedServer.cultivation || 'Trúc Cơ Kỳ'}
             </span>
           </div>
 
-          {/* 3. Nút "Vào Game" trên Card - Khớp chuẩn vùng nút ngọc bích bên phải (bỏ 2 mũi tên) */}
+          {/* 3. Nút "Vào Game >>" trên Card trên - Vùng bấm đè lên nút có sẵn trên ảnh */}
           <button
             onClick={() => onEnterGame(playedServer)}
-            className="absolute left-[67%] right-[2%] top-[16%] bottom-[16%] flex items-center justify-center font-extrabold text-xs sm:text-sm text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] active:scale-95 transition-transform focus:outline-none cursor-pointer"
+            className="absolute left-[65%] right-[4%] top-[25%] bottom-[25%] flex items-center justify-center active:scale-95 transition-transform focus:outline-none cursor-pointer"
             title="Vào Game"
-          >
-            <span>Vào Game</span>
-          </button>
+          />
         </div>
 
-        {/* --- KHUNG CHỌN MÁY CHỦ CHÍNH (CARD DƯỚI) --- */}
-        <div className="relative w-full flex-1 flex flex-col bg-[#faf5e4] rounded-2xl border-2 border-emerald-900/60 shadow-2xl overflow-hidden min-h-0">
-          {/* Thanh Chú Thích Trạng Thái (Status Legend Bar) */}
-          <div className="w-full bg-[#f3ecda] border-b border-[#e2d5ba] px-4 py-1.5 flex items-center justify-around text-[11px] sm:text-xs font-bold text-[#382b1c] flex-shrink-0">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm" />
-              <span>Tốt</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-sm" />
-              <span>Ổn Định</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-sm" />
-              <span>Đông</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-slate-400 shadow-sm" />
-              <span>Bảo Trì</span>
-            </div>
-          </div>
+        {/* --- THANH TRẠNG THÁI MÁY CHỦ (4 CHẤM) --- */}
+        <div className="relative w-full flex-shrink-0 aspect-[2172/294] max-h-8 drop-shadow-sm">
+          <img
+            src={khungTrangThai}
+            alt="Trạng thái máy chủ"
+            className="w-full h-full object-contain pointer-events-none"
+          />
+        </div>
 
-          {/* Vùng Body 2 Cột: Sidebar Trái + Danh Sách Phải */}
-          <div className="w-full flex-1 flex overflow-hidden min-h-0">
-            {/* Cột Trái: Sidebar Categories (bg đậm ngọc bích) */}
-            <div className="w-[115px] sm:w-[130px] flex-shrink-0 bg-[#082a25] border-r border-emerald-950/40 p-1.5 flex flex-col gap-1.5 overflow-y-auto">
+        {/* --- KHUNG CHỌN MÁY CHỦ CHÍNH (2 CỘT: SIDEBAR TRÁI + LIST SERVER PHẢI) --- */}
+        <div className="relative w-full flex-1 flex overflow-hidden min-h-0 gap-1.5 sm:gap-2">
+          {/* CỘT TRÁI: SIDEBAR FILTER TABS */}
+          <div className="relative w-[105px] sm:w-[122px] flex-shrink-0 flex flex-col overflow-hidden rounded-xl drop-shadow-md">
+            {/* Ảnh nền khung sidebar với chim hạc bay bên dưới */}
+            <img
+              src={khungListFilter}
+              alt="Khung Danh Mục"
+              className="absolute inset-0 w-full h-full object-fill pointer-events-none z-0"
+            />
+
+            {/* Danh sách 5 Tabs ở nửa trên */}
+            <div className="relative z-10 p-1.5 sm:p-2 flex flex-col gap-1.5">
               {categories.map((cat) => {
                 const isSelected = selectedCategory === cat.key;
                 return (
                   <button
                     key={cat.key}
                     onClick={() => setSelectedCategory(cat.key)}
-                    style={{
-                      backgroundImage: `url(${isSelected ? tabActiveBg : tabInactiveBg})`,
-                      backgroundSize: '100% 100%',
-                      backgroundRepeat: 'no-repeat',
-                    }}
-                    className={`relative w-full h-11 sm:h-12 rounded-xl flex items-center px-2 transition-all active:scale-95 focus:outline-none ${
-                      isSelected ? 'drop-shadow-md' : 'opacity-90 hover:opacity-100'
+                    className={`relative w-full aspect-[2172/724] flex items-center justify-center transition-all focus:outline-none cursor-pointer active:scale-95 ${
+                      isSelected ? 'drop-shadow-md' : 'hover:brightness-110'
                     }`}
                   >
-                    {/* Icon hoặc Badge */}
-                    <div className="mr-1.5 flex-shrink-0 flex items-center justify-center">
+                    {/* Background nút tab: Selected (Vàng kim) hoặc Unselected (Ngọc lục) */}
+                    <img
+                      src={isSelected ? khungFilterSelected : khungFilter}
+                      alt={cat.label}
+                      className="absolute inset-0 w-full h-full object-fill pointer-events-none"
+                    />
+
+                    {/* Nội dung Tab: Icon / Badge + Nhãn */}
+                    <div className="relative z-10 flex items-center gap-1 px-1.5">
                       {cat.badge ? (
-                        <span className="bg-red-600 text-white text-[9px] font-extrabold px-1 rounded shadow">
+                        <span className="bg-red-600 text-white text-[8px] sm:text-[9px] font-black px-1 rounded shadow-xs leading-none">
                           {cat.badge}
                         </span>
                       ) : (
                         <span
-                          className={`text-sm ${
-                            isSelected ? 'text-[#8b5a2b]' : 'text-amber-200/90'
+                          className={`text-xs ${
+                            isSelected ? 'text-[#194030]' : 'text-[#f0f9f6]'
                           }`}
                         >
                           {cat.icon}
                         </span>
                       )}
-                    </div>
 
-                    {/* Tiêu đề Tab */}
-                    <span
-                      className={`text-[11px] sm:text-xs tracking-tight text-left leading-tight ${
-                        isSelected
-                          ? 'font-extrabold text-[#241a0d]'
-                          : 'font-semibold text-[#f0f9f6]'
-                      }`}
-                    >
-                      {cat.label}
-                    </span>
+                      <span
+                        className={`text-[10px] sm:text-[11px] truncate tracking-tight ${
+                          isSelected
+                            ? 'font-black text-[#1a382b]'
+                            : 'font-bold text-[#f3f9f6]'
+                        }`}
+                      >
+                        {cat.label}
+                      </span>
+                    </div>
                   </button>
                 );
               })}
             </div>
+          </div>
 
-            {/* Cột Phải: Server List */}
-            <div className="flex-1 p-2 sm:p-2.5 overflow-y-auto flex flex-col gap-2.5 bg-[#fcf9ee]">
-              {/* Trường hợp chọn Tất Cả: Hiển thị phân nhóm rõ ràng theo Đề Xuất, Mới, Cũ */}
+          {/* CỘT PHẢI: SERVER LIST TRÊN CUỘN GIẤY TIÊN GIỚI */}
+          <div className="relative flex-1 flex flex-col overflow-hidden rounded-xl drop-shadow-md">
+            {/* Ảnh nền cuộn giấy parchment */}
+            <img
+              src={khungListServer}
+              alt="Khung Danh Sách Máy Chủ"
+              className="absolute inset-0 w-full h-full object-fill pointer-events-none z-0"
+            />
+
+            {/* Vùng cuộn danh sách máy chủ */}
+            <div className="relative z-10 w-full h-full p-2 sm:p-2.5 overflow-y-auto flex flex-col gap-1.5">
+              {/* TRƯỜNG HỢP: TẤT CẢ (HIỂN THỊ ĐỦ CÁC NHÓM) */}
               {selectedCategory === 'all' ? (
                 <>
-                  {/* Nhóm 1: Đề Xuất */}
-                  <div className="flex flex-col gap-1.5">
-                    <div className="flex items-center justify-center">
-                      <div className="relative px-5 py-0.5 bg-gradient-to-r from-teal-800 via-emerald-700 to-teal-800 text-amber-200 border border-amber-400/80 rounded-full font-bold text-xs tracking-wide shadow-sm flex items-center gap-1">
-                        <span>Đề Xuất</span>
-                      </div>
+                  {/* NHÓM 1: ĐỀ XUẤT */}
+                  <div className="flex flex-col gap-1">
+                    {/* Header Ribbon Đề Xuất */}
+                    <div className="relative w-[50%] max-w-[140px] mx-auto aspect-[2172/724] flex items-center justify-center my-0.5">
+                      <img
+                        src={khungTitleFilter}
+                        alt="Đề Xuất"
+                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                      />
+                      <span className="relative z-10 font-bold text-[11px] sm:text-xs text-amber-200 tracking-wide drop-shadow-xs">
+                        Đề Xuất
+                      </span>
                     </div>
 
                     {FAKE_SERVERS.filter((s) => s.category.includes('recommended')).map((srv) => (
-                      <ServerRowItem
+                      <ServerRow
                         key={srv.id}
                         server={srv}
                         isSelected={selectedServerId === srv.id}
@@ -347,19 +364,27 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
                     ))}
                   </div>
 
-                  {/* Nhóm 2: Máy Chủ Mới */}
-                  <div className="flex flex-col gap-1.5 pt-1">
-                    <div className="flex items-center justify-center">
-                      <div className="relative px-5 py-0.5 bg-gradient-to-r from-teal-800 via-emerald-700 to-teal-800 text-amber-200 border border-amber-400/80 rounded-full font-bold text-xs tracking-wide shadow-sm flex items-center gap-1.5">
-                        <span>Máy Chủ Mới</span>
-                        <span className="bg-red-600 text-white text-[9px] font-extrabold px-1 rounded shadow">
+                  {/* NHÓM 2: MÁY CHỦ MỚI */}
+                  <div className="flex flex-col gap-1 pt-1">
+                    {/* Header Ribbon Máy Chủ Mới */}
+                    <div className="relative w-[60%] max-w-[160px] mx-auto aspect-[2172/724] flex items-center justify-center my-0.5">
+                      <img
+                        src={khungTitleFilter}
+                        alt="Máy Chủ Mới"
+                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                      />
+                      <div className="relative z-10 flex items-center gap-1">
+                        <span className="font-bold text-[11px] sm:text-xs text-amber-200 tracking-wide drop-shadow-xs">
+                          Máy Chủ Mới
+                        </span>
+                        <span className="bg-red-600 text-white text-[8px] font-black px-1 rounded shadow-xs leading-none">
                           NEW
                         </span>
                       </div>
                     </div>
 
                     {FAKE_SERVERS.filter((s) => s.category.includes('new')).map((srv) => (
-                      <ServerRowItem
+                      <ServerRow
                         key={srv.id}
                         server={srv}
                         isSelected={selectedServerId === srv.id}
@@ -368,16 +393,22 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
                     ))}
                   </div>
 
-                  {/* Nhóm 3: Máy Chủ Cũ */}
-                  <div className="flex flex-col gap-1.5 pt-1">
-                    <div className="flex items-center justify-center">
-                      <div className="relative px-5 py-0.5 bg-gradient-to-r from-teal-800 via-emerald-700 to-teal-800 text-amber-200 border border-amber-400/80 rounded-full font-bold text-xs tracking-wide shadow-sm flex items-center gap-1">
-                        <span>Máy Chủ Cũ</span>
-                      </div>
+                  {/* NHÓM 3: MÁY CHỦ CŨ */}
+                  <div className="flex flex-col gap-1 pt-1">
+                    {/* Header Ribbon Máy Chủ Cũ */}
+                    <div className="relative w-[50%] max-w-[140px] mx-auto aspect-[2172/724] flex items-center justify-center my-0.5">
+                      <img
+                        src={khungTitleFilter}
+                        alt="Máy Chủ Cũ"
+                        className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                      />
+                      <span className="relative z-10 font-bold text-[11px] sm:text-xs text-amber-200 tracking-wide drop-shadow-xs">
+                        Máy Chủ Cũ
+                      </span>
                     </div>
 
                     {FAKE_SERVERS.filter((s) => s.category.includes('old')).map((srv) => (
-                      <ServerRowItem
+                      <ServerRow
                         key={srv.id}
                         server={srv}
                         isSelected={selectedServerId === srv.id}
@@ -387,16 +418,21 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
                   </div>
                 </>
               ) : (
-                /* Trường hợp chọn một Category riêng lẻ */
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-center mb-1">
-                    <div className="relative px-5 py-0.5 bg-gradient-to-r from-teal-800 via-emerald-700 to-teal-800 text-amber-200 border border-amber-400/80 rounded-full font-bold text-xs tracking-wide shadow-sm">
+                /* TRƯỜNG HỢP: CHỌN MỘT CATEGORY CỤ THỂ */
+                <div className="flex flex-col gap-1">
+                  <div className="relative w-[55%] max-w-[150px] mx-auto aspect-[2172/724] flex items-center justify-center my-0.5">
+                    <img
+                      src={khungTitleFilter}
+                      alt="Tiêu đề"
+                      className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                    />
+                    <span className="relative z-10 font-bold text-[11px] sm:text-xs text-amber-200 tracking-wide drop-shadow-xs">
                       {categories.find((c) => c.key === selectedCategory)?.label}
-                    </div>
+                    </span>
                   </div>
 
                   {FAKE_SERVERS.filter((s) => s.category.includes(selectedCategory)).map((srv) => (
-                    <ServerRowItem
+                    <ServerRow
                       key={srv.id}
                       server={srv}
                       isSelected={selectedServerId === srv.id}
@@ -410,23 +446,18 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
         </div>
       </div>
 
-      {/* 4. Bottom Action "Vào Game" Button */}
-      <footer className="relative z-10 w-full flex items-center justify-center pb-4 pt-1 flex-shrink-0">
+      {/* 4. Bottom Action "Vào Game" Button - Nút ngọc bích chuẩn ảnh mới */}
+      <footer className="relative z-10 w-full flex items-center justify-center pb-3 pt-0.5 flex-shrink-0">
         <button
           onClick={() => onEnterGame(currentSelectedServer)}
-          className="relative group active:scale-95 transition-transform duration-150 focus:outline-none"
+          className="relative w-[230px] sm:w-[260px] aspect-[2172/724] flex items-center justify-center active:scale-95 transition-transform duration-150 focus:outline-none cursor-pointer drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
+          title="Vào Game"
         >
-          {/* Nút Action Ornate Green */}
           <img
-            src={btnAction}
+            src={btnVaoGame}
             alt="Vào Game"
-            className="w-[200px] sm:w-[220px] h-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)]"
+            className="w-full h-full object-contain pointer-events-none"
           />
-
-          {/* Nhãn chữ Vào Game */}
-          <span className="absolute inset-0 flex items-center justify-center font-extrabold text-base sm:text-lg text-[#fffdf2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] tracking-wide pointer-events-none">
-            Vào Game
-          </span>
         </button>
       </footer>
 
@@ -440,11 +471,11 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
             <div className="space-y-2 text-xs text-slate-700 text-left py-1">
               <div className="flex items-center justify-between">
                 <span>Âm thanh Tiên nhạc:</span>
-                <input type="checkbox" defaultChecked className="accent-emerald-600 w-4 h-4" />
+                <input type="checkbox" defaultChecked className="accent-emerald-600 w-4 h-4 cursor-pointer" />
               </div>
               <div className="flex items-center justify-between">
                 <span>Hiệu ứng Tiên thuật:</span>
-                <input type="checkbox" defaultChecked className="accent-emerald-600 w-4 h-4" />
+                <input type="checkbox" defaultChecked className="accent-emerald-600 w-4 h-4 cursor-pointer" />
               </div>
               <div className="flex items-center justify-between">
                 <span>Chất lượng hình ảnh:</span>
@@ -453,7 +484,7 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
             </div>
             <button
               onClick={() => setShowSettingsModal(false)}
-              className="w-full py-2 bg-gradient-to-r from-emerald-700 to-teal-600 text-white font-bold rounded-xl text-xs shadow hover:opacity-90 active:scale-95 transition-all"
+              className="w-full py-2 bg-gradient-to-r from-emerald-700 to-teal-600 text-white font-bold rounded-xl text-xs shadow hover:opacity-90 active:scale-95 transition-all cursor-pointer"
             >
               Xác Nhận & Đóng
             </button>
@@ -464,49 +495,58 @@ export const ServerSelectScreen: React.FC<ServerSelectScreenProps> = ({
   );
 };
 
-// Component Dòng Server
-interface ServerRowItemProps {
+// Component Dòng Server sử dụng khung_server.png hoặc khung_server_co_nhan_vat.png
+interface ServerRowProps {
   server: ServerInfo;
   isSelected: boolean;
   onSelect: () => void;
 }
 
-const ServerRowItem: React.FC<ServerRowItemProps> = ({ server, isSelected, onSelect }) => {
+const ServerRow: React.FC<ServerRowProps> = ({ server, isSelected, onSelect }) => {
   return (
-    <button
+    <div
       onClick={onSelect}
-      className={`w-full px-2.5 py-2 rounded-xl flex items-center justify-between transition-all focus:outline-none ${
-        isSelected
-          ? 'bg-gradient-to-r from-[#fffcf0] via-[#fdefd0] to-[#fffcf0] border-2 border-amber-400 shadow-[0_2px_8px_rgba(217,119,6,0.25)] ring-1 ring-amber-300'
-          : 'bg-[#fcfaf3] border border-[#e8dcb8] hover:border-amber-300/80 shadow-xs'
+      className={`relative w-full aspect-[2172/724] cursor-pointer transition-all duration-150 active:scale-[0.98] ${
+        isSelected ? 'scale-[1.01] drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]' : 'hover:brightness-105'
       }`}
     >
-      {/* Vế Trái: Chấm Trạng Thái + Tên Server + Badge Có Nhân Vật */}
-      <div className="flex items-center gap-1.5 min-w-0 pr-1">
-        {/* Chấm tròn trạng thái */}
-        <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${server.dotColor} shadow-xs`} />
+      {/* Background Frame: khung_server_co_nhan_vat hoặc khung_server thường */}
+      <img
+        src={server.hasCharacter ? khungServerCoNhanVat : khungServer}
+        alt={server.name}
+        className="w-full h-full object-fill pointer-events-none"
+      />
 
-        {/* Tên Server */}
-        <span className="font-extrabold text-xs sm:text-sm text-[#1e2722] truncate">
-          {server.name}
-        </span>
+      {/* Nội dung bên trong dòng server */}
+      <div className="absolute inset-0 px-3 sm:px-4 flex items-center justify-between pointer-events-none">
+        {/* Vế Trái: Chấm trạng thái + Tên máy chủ + Huy hiệu Có nhân vật */}
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+          {/* Chấm tròn trạng thái */}
+          <span className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0 ${server.dotColor} shadow-xs`} />
 
-        {/* Badge Có nhân vật */}
-        {server.hasCharacter && (
-          <span className="flex-shrink-0 bg-emerald-700 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-xs flex items-center gap-0.5 ml-1">
-            <span>👤</span>
-            <span>Có nhân vật</span>
+          {/* Tên Máy Chủ */}
+          <span className="font-black text-xs sm:text-sm text-[#14231b] truncate drop-shadow-xs">
+            {server.name}
           </span>
-        )}
-      </div>
 
-      {/* Vế Phải: Trạng Thái Tốt / Đông / Ổn */}
-      <span className={`text-xs sm:text-sm font-extrabold flex-shrink-0 ${server.statusColor}`}>
-        {server.statusText}
-      </span>
-    </button>
+          {/* Huy hiệu Có Nhân Vật */}
+          {server.hasCharacter && (
+            <span className="bg-[#1b4332] text-white text-[8px] sm:text-[9px] font-extrabold px-1.5 py-0.5 rounded-full flex items-center gap-0.5 ml-1 shadow-xs flex-shrink-0">
+              <span>👤</span>
+              <span>Có nhân vật</span>
+            </span>
+          )}
+        </div>
+
+        {/* Vế Phải: Chữ trạng thái (Đông, Tốt, Ổn) */}
+        <span
+          className={`text-xs sm:text-sm font-black flex-shrink-0 drop-shadow-xs ${server.statusColor}`}
+        >
+          {server.statusText}
+        </span>
+      </div>
+    </div>
   );
 };
 
 export default ServerSelectScreen;
-
