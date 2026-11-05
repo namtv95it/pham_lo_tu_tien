@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import bgLogin from '@/assets/images/login_screen/background_login.png';
 import frameChat from '@/assets/images/login_screen/frame-chat.png';
-import tabLogin from '@/assets/images/login_screen/login-or-register_login.png';
-import tabRegister from '@/assets/images/login_screen/login-or-register_register.png';
+import tabLogin from '@/assets/images/login_screen/select_login.png';
+import tabRegister from '@/assets/images/login_screen/select_register.png';
 import btnAction from '@/assets/images/login_screen/button_action.png';
 import logoImg from '@/assets/images/common/logo_game_2d.png';
 import sloganImg from '@/assets/images/common/slogan_game.png';
@@ -153,8 +153,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
         {/* Khung Viền Giấy Trúc Cuộn Thư Tỷ Lệ Chuẩn (916/1136) */}
         <div className="relative w-full aspect-[916/1136] flex flex-col items-center z-10">
           
-          {/* Thanh Tab: Đăng Nhập | Đăng Ký (Khoá chặt trên đỉnh khung cuộn, KHÔNG CÓ KHE HỞ NƯỚC) */}
-          <div className="absolute -top-[10.5%] left-1/2 -translate-x-1/2 w-[94%] aspect-[1326/226] z-30 flex">
+          {/* Thanh Tab: Đăng Nhập | Đăng Ký (select_login.png & select_register.png) */}
+          <div className="absolute -top-[9%] sm:-top-[8.5%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[1958/397] z-30 flex">
             <img
               src={tab === 'login' ? tabLogin : tabRegister}
               alt="Tab Selection"
