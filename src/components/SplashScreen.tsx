@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import bgImage from '../assets/images/splash_screen/03_Background_Clean_1080x1920.png';
 import logoImage from '../assets/images/splash_screen/logo_game_2d.png';
 import sloganImage from '../assets/images/splash_screen/slogan_game.png';
+import textFrameImage from '../assets/images/splash_screen/loading_frame.png';
 import barEmptyImage from '../assets/images/splash_screen/loading_0.png';
 import barFullImage from '../assets/images/splash_screen/loading_100.png';
 
@@ -70,15 +71,22 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onLoadComplete }) =>
       {/* Phần Giữa: Để trống để lộ trọn vẹn Bảo Bình Ngọc linh khí và bàn thạch ở background */}
       <div className="flex-1" />
 
-      {/* Phần Dưới: Văn Bản & Thanh Tiến Độ Tải Mới */}
-      <footer className="relative z-10 pb-9 sm:pb-11 px-4 flex flex-col items-center">
-        {/* Dòng chữ thông báo tiến trình tải */}
-        <p className="text-white font-serif font-medium text-xs sm:text-sm tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] mb-1 text-center">
-          {isLoaded ? 'Khởi tạo hoàn tất!' : `Đang tải tài nguyên... ${progress}%`}
-        </p>
+      {/* Phần Dưới: Khung Văn Bản & Thanh Tiến Độ Tải */}
+      <footer className="relative z-10 pb-8 sm:pb-10 px-4 flex flex-col items-center gap-1.5">
+        {/* Khung Văn Bản Loading */}
+        <div className="relative w-[84%] max-w-[330px] aspect-[741/132] flex items-center justify-center">
+          <img
+            src={textFrameImage}
+            alt="Khung thông báo tải"
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]"
+          />
+          <span className="relative z-10 text-white font-serif font-medium text-xs sm:text-sm tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] pt-0.5">
+            {isLoaded ? 'Khởi tạo hoàn tất!' : `Đang tải tài nguyên... ${progress}%`}
+          </span>
+        </div>
 
         {/* Thanh Loading (loading_0.png khung rỗng + loading_100.png sáng vàng) */}
-        <div className="relative w-[86%] max-w-[340px] aspect-[760/100] flex items-center justify-center">
+        <div className="relative w-[88%] max-w-[340px] aspect-[760/100] flex items-center justify-center">
           {/* Thanh Khung Rỗng (loading_0.png) */}
           <img
             src={barEmptyImage}
@@ -98,7 +106,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onLoadComplete }) =>
         </div>
 
         {/* Thông tin phiên bản chân trang */}
-        <div className="text-[10px] text-amber-100/70 font-mono tracking-widest uppercase drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] mt-2">
+        <div className="text-[10px] text-amber-100/70 font-mono tracking-widest uppercase drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] mt-1">
           v0.1.0 • Phàm Lộ Tu Tiên
         </div>
       </footer>
