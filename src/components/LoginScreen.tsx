@@ -153,19 +153,29 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
         {/* Khung Viền Giấy Trúc Cuộn Thư Tỷ Lệ Chuẩn (916/1136) */}
         <div className="relative w-full aspect-[916/1136] flex flex-col items-center">
           
-          {/* Thanh Tab: Đăng Nhập | Đăng Ký (Lớp phủ z-10 NẰM DƯỚI Khung Đăng Nhập z-20, hạ xuống để khớp viền) */}
-          <div className="absolute -top-[5.2%] sm:-top-[5%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[1958/397] z-10 flex pointer-events-auto">
+          {/* 1. Lớp hình ảnh nền 2 nút Tab (z-10 NẰM DƯỚI Khung Đăng Nhập z-20) */}
+          <div className="absolute -top-[5.2%] sm:-top-[5%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[1958/397] z-10 pointer-events-none">
             <img
               src={tab === 'login' ? tabLogin : tabRegister}
               alt="Tab Selection"
-              className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
+              className="w-full h-full object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
             />
+          </div>
 
+          {/* 2. Ảnh nền Khung Card cuộn thư (Lớp phủ z-20 NẰM TRÊN ảnh tab) */}
+          <img
+            src={frameChat}
+            alt="Frame Login Card"
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20 drop-shadow-[0_12px_28px_rgba(0,0,0,0.55)]"
+          />
+
+          {/* 3. Lớp văn bản & nút bấm click của 2 Tab (z-40 NẰM TRÊN CÙNG để click thoải mái) */}
+          <div className="absolute -top-[5.2%] sm:-top-[5%] left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] aspect-[1958/397] z-40 flex pointer-events-auto">
             {/* Nút Tab Đăng Nhập (Trái) */}
             <button
               type="button"
               onClick={() => { setTab('login'); setErrorMsg(null); setSuccessMsg(null); }}
-              className="relative z-10 w-1/2 h-full flex items-center justify-center pb-1 sm:pb-1.5 font-bold text-xs sm:text-sm tracking-wide cursor-pointer"
+              className="w-1/2 h-full flex items-center justify-center pb-1 sm:pb-1.5 font-bold text-xs sm:text-sm tracking-wide cursor-pointer transition-opacity active:opacity-80"
             >
               <span className={tab === 'login' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
                 Đăng nhập
@@ -176,20 +186,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             <button
               type="button"
               onClick={() => { setTab('register'); setErrorMsg(null); setSuccessMsg(null); }}
-              className="relative z-10 w-1/2 h-full flex items-center justify-center pb-1 sm:pb-1.5 font-bold text-xs sm:text-sm tracking-wide cursor-pointer"
+              className="w-1/2 h-full flex items-center justify-center pb-1 sm:pb-1.5 font-bold text-xs sm:text-sm tracking-wide cursor-pointer transition-opacity active:opacity-80"
             >
               <span className={tab === 'register' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
                 Đăng ký
               </span>
             </button>
           </div>
-
-          {/* Ảnh nền Khung Card cuộn thư (Lớp phủ z-20 NẰM TRÊN Thanh Tab) */}
-          <img
-            src={frameChat}
-            alt="Frame Login Card"
-            className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20 drop-shadow-[0_12px_28px_rgba(0,0,0,0.55)]"
-          />
 
           {/* Vùng Form Nội Dung (z-30 nằm trên nền giấy cuộn thư, căn chỉnh gọn gàng bên trong không chạm rèm ngọc) */}
           <form
