@@ -175,9 +175,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             <button
               type="button"
               onClick={() => { setTab('login'); setErrorMsg(null); setSuccessMsg(null); }}
-              className="w-1/2 h-full flex items-center justify-center pb-1 sm:pb-1.5 font-bold text-xs sm:text-sm tracking-wide cursor-pointer transition-opacity active:opacity-80"
+              className="w-1/2 h-full flex items-center justify-center pt-0.5 sm:pt-1 cursor-pointer transition-all duration-200 select-none"
             >
-              <span className={tab === 'login' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
+              <span
+                className={`transition-all duration-200 tracking-wide ${
+                  tab === 'login'
+                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105'
+                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95'
+                }`}
+              >
                 Đăng nhập
               </span>
             </button>
@@ -186,9 +192,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             <button
               type="button"
               onClick={() => { setTab('register'); setErrorMsg(null); setSuccessMsg(null); }}
-              className="w-1/2 h-full flex items-center justify-center pb-1 sm:pb-1.5 font-bold text-xs sm:text-sm tracking-wide cursor-pointer transition-opacity active:opacity-80"
+              className="w-1/2 h-full flex items-center justify-center pt-0.5 sm:pt-1 cursor-pointer transition-all duration-200 select-none"
             >
-              <span className={tab === 'register' ? 'text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]' : 'text-[#fbf7ee] drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'}>
+              <span
+                className={`transition-all duration-200 tracking-wide ${
+                  tab === 'register'
+                    ? 'text-sm sm:text-[15px] font-extrabold text-[#1c2e27] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] scale-105'
+                    : 'text-xs sm:text-[12px] font-semibold text-[#fbf7ee]/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] scale-95'
+                }`}
+              >
                 Đăng ký
               </span>
             </button>
