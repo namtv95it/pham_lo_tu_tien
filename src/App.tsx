@@ -3,6 +3,7 @@ import { SplashScreen } from './components/SplashScreen';
 import { LoginScreen } from './components/LoginScreen';
 import { ServerSelectScreen, ServerInfo } from './components/ServerSelectScreen';
 import { CharacterCreateScreen, CreatedCharacterData } from './components/CharacterCreateScreen';
+import { MainGameScreen } from './components/MainGameScreen';
 import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { auth } from './services/firebase';
 
@@ -99,50 +100,14 @@ export const App: React.FC = () => {
           />
         )}
 
-        {/* 5. Màn hình Trạng Thái Trong Game */}
+        {/* 5. Màn hình Gameplay Chính (Huyền Lộ Bình & Chiến Đấu Nấm Lùn) */}
         {appState === 'game' && (
-          <div className="w-full h-full bg-[#080b11] text-slate-100 flex flex-col items-center justify-center p-6 text-center relative">
-            <div className="space-y-4 max-w-xs">
-              <span className="text-xs px-3 py-1 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 font-mono">
-                Đã Đăng Nhập Tiên Môn
-              </span>
-              <h1 className="text-3xl font-extrabold font-serif tracking-wider bg-gradient-to-r from-amber-200 via-sky-300 to-amber-100 bg-clip-text text-transparent">
-                Phàm Lộ Tu Tiên
-              </h1>
-              <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-left space-y-1 text-xs font-mono">
-                <p className="text-amber-300 font-bold">
-                  Máy chủ: {selectedServer?.name || 'S1 - Phàm Lộ'}
-                </p>
-                <p className="text-white font-bold">
-                  Đạo hiệu: <span className="text-amber-200">{activeCharacter?.name || selectedServer?.characterName || 'Vô Danh'}</span>
-                </p>
-                <p className="text-slate-300">
-                  Cảnh giới: <span className="text-emerald-300">{activeCharacter?.cultivation || selectedServer?.cultivation || 'Phàm Nhân'}</span> (Lv.{activeCharacter?.level || selectedServer?.level || 1})
-                </p>
-                <p className="text-slate-400">
-                  Tài khoản: {currentUser?.email || (currentUser?.isAnonymous ? 'Đạo Hữu Ẩn Danh' : 'Đạo Hữu')}
-                </p>
-              </div>
-              <p className="text-sm text-slate-300 font-serif italic tracking-wide">
-                &ldquo;Thân mang phàm cốt, tâm hướng tiên đồ.&rdquo;
-              </p>
-
-              <div className="pt-4 flex items-center justify-center gap-2">
-                <button
-                  onClick={() => setAppState('server_select')}
-                  className="px-4 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-800/50 text-xs font-semibold transition-colors cursor-pointer"
-                >
-                  Đổi Máy Chủ
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 text-red-300 border border-red-800/50 text-xs font-semibold transition-colors cursor-pointer"
-                >
-                  Đăng Xuất
-                </button>
-              </div>
-            </div>
-          </div>
+          <MainGameScreen
+            server={selectedServer}
+            character={activeCharacter}
+            onBackToServerSelect={() => setAppState('server_select')}
+            onLogout={handleLogout}
+          />
         )}
       </main>
     </div>
